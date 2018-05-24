@@ -1,0 +1,53 @@
+html,body{
+	margin:0;
+	padding:0;
+}
+div,textarea{
+	box-sizing: border-box;
+}
+ul,ol {
+	margin: 0;
+	padding-left: 2em;
+	list-style: none;
+}
+#json-box{
+	width: 80%;
+	height: 600px;
+	margin: 40px auto;
+	display: flex;
+	flex-direction: row;
+}
+.input-area {
+	height: 100%;
+	flex:1;
+}
+.input-area textarea, .show-area textarea{
+	height: 100%;
+	width: 100%;
+	padding: 10px;
+}
+.show-area{
+	flex:1;
+	height: 100%;
+	border: 1px solid #333;
+	padding: 10px;
+	overflow-y: scroll;
+	font-size: 12px;
+	color: #0e0;
+}
+
+.show-area .property{
+	color: #e00;
+}
+.show-area .toggle {
+	color: #e0e;
+}
+.show-area .toggle i.open, .show-area .toggle i{
+	display: inline-block;
+	font-style: normal;
+	cursor: pointer;
+	border: 1px solid #333;
+	color: #333;
+	line-height: 7px;
+}
+

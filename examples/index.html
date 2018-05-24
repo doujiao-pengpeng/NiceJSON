@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="global.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<title>index</title>
+</head>
+<body>
+  <div id="root">
+  	<json-box :init-input="data"></json-box>
+  	<json-box></json-box>
+  	<json-box></json-box>
+  </div>
+	
+
+	<script type="text/x-template" id="jsonBox">
+		<div id="json-box">
+	  	<div class="input-area">
+	  		<textarea v-model="input"></textarea>
+	  	</div>
+	  	<div class="show-area">
+	  		<item
+			    class="item"
+			    :model="parsedData"
+			    :level="0"
+			    >
+		  	</item>
+	  	</div>
+	  </div>
+	</script>
+	<script type="text/x-template" id="showArea">
+		<!-- 判断是不是对象 -->
+		<span class="object" v-if="isObject">
+			<span class="toggle"><i @click="toggle">{{open?'-':'+'}}</i>{</span>
+			<ul v-show="open">
+				<li v-for="(value, key, index) in model" :key="index">
+					<span class="property">"{{key}}" : </span>
+
+					<!-- 如果是对象或数组，递归 -->
+					<item v-if="typeof value === 'object'" :level="level+1" :model="value" ></item>
+					<!-- 如果是基本类型 -->
+					<span v-else>"{{value}}"</span>
+
+					<template v-if="index !== (Object.getOwnPropertyNames(model).length-2)">,</template>
+				</li>
+			</ul>
+			<span class="toggle">}</span>
+		</span>
+
+		<!-- 判断是不是数组 -->
+		<span class="array" v-else-if="isArray">
+			<span class="toggle"><i @click="toggle">{{open?'-':'+'}}</i>[</span>
+			<ol v-show="open">
+				<template v-for="(value, index) in model">
+
+					<!-- 如果是数组或对象 -->
+					<li v-if="typeof value === 'object'" :key="index">
+						<item v-if="typeof value === 'object'" :level="level + 1" :model="value"></item>
+						<template v-if="index !== model.length-1">,</template>
+					</li>
+					<!-- 如果是数组或对象，结束 -->
+
+					<!-- 如果是基本类型，此处可以单独引入组件，优化值类型 -->
+					<span v-if="typeof value !== 'object'" :key="index">
+						"{{value}}" 
+						<template v-if="index !== model.length-1">,</template>
+					</span>
+					<!-- 基本类型结束 -->
+				</template>
+			</ol>
+			<span class="toggle">]</span>
+		</span>
+
+		<span v-else >
+			{{model}}
+		</span>
+	</script>
+	
+	<script src="./index.js"></script>
+</body>
+</html>
